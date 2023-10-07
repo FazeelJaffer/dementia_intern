@@ -164,11 +164,7 @@ Your environment after installing everything from `requirements.txt` will have e
 Check out [this guide](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world) for an overview of how these tools fit toghether.
 <!-- CONTRIBUTING -->
 ## Contributors
-* [Moin Bashir Zargar](https://github.com/MoinZargar)
-* [Faisal Shafi](https://github.com/fasil-code)
 * [Fazeel Jaffer](https://github.com/fazeel-jaffer)
-* [Zahoor Ahmad](https://github.com/Xahoor72)
-* [Haseeb Hijazi Khan](https://github.com/HaseebH-Khan)
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -206,7 +202,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
 
-Project Link: [https://github.com/fasil-code/intern](https://github.com/fasil-code/intern)
+Project Link: [https://github.com/FazeelJaffer/dementia_intern](https://github.com/FazeelJaffer/dementia_intern)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
