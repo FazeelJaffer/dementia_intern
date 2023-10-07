@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <title>Navbar</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='layout/navbar.css')}}" />
+</head>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+
+  }
+
+  .maini {
+
+
+    display: flex;
+    justify-content: center;
+
+  }
+
+  .lefttext {
+
+    width: 600px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+
+    flex-direction: column;
+
+  }
+
+  .rightimage {
+    height: 700px;
+    align-items: center;
+  }
+
+  .h1 {
+    padding: 5px;
+    align-items: center;
+    text-align: center;
+    font-size: 40px;
+    font-weight: 500;
+
+    padding-bottom: 5px;
+
+
+    font-family: 'Ubuntu', sans-serif;
+    color: #fff;
+
+  }
+
+  .p {
+    padding: 5px;
+    align-items: left;
+    text-align: center;
+
+    font-size: 24px;
+    font-family: sans-serif;
+    color: #fff;
+  }
+
+
+  @media(max-width:800px) {
+    .maini {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .lefttext {
+      width: 100%;
+      margin-top: 8rem;
+    }
+
+    h1 {
+      font-size: 30px;
+    }
+
+    .rightimage {
+      width: 100%;
+    }
+
+    img {
+      width: auto;
+      overflow: hidden;
+      
+    }
+  }
+#drip{
+color:white
+
+}
+  @media(max-width:450px) {
+    .h1 {
+      font-size: 25px;
+    }
+
+    .p {
+      font-size: 18px;
+      ;
+    }
+  }
+</style>
+
+<body>
+
+
+  <section class="navigation">
+    <div class="nav-container">
+      <div class="brand">
+        <a  href="/">FTD</a>
+      </div>
+      <nav>
+        <div class="nav-mobile"><a id="navbar-toggle"><span></span></a></div>
+        <ul class="nav-list">
+          <li>
+            <a  href="/">Home</a>
+          </li>
+          <li>
+            <a  href="../static/docs.pdf" download>Docs</a>
+          </li>
+          <li>
+            <a id="test" href="{{ url_for('attempt') }}" onclick="handleTestClick(event)">Tests</a>
+
+
+          </li>
+       
+
+
+        
+          {% if logged_in %}
+       
+          <li>
+            <a   id="test" href="{{ url_for('dashboard') }}">Dashboard</a>
+
+          </li>
+          <li>
+            <a id="drip" >{{name}}</a>
+            <ul class="navbar-dropdown">
+              <li>
+                <a href="{{ url_for('logout') }}">Logout</a>
+              </li>
+             
+            </ul>
+          </li>
+       
+      
+          {% else %}
+          <li>
+
+            <a  href="{{ url_for('login') }}">Login</a>
+          </li>
+       
+
+
+
+
+
+          <li>
+            <a  href="{{ url_for('register') }}">Register</a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </section>
+
+  <div class="maini">
+    <div style="text-align: center;">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">
+        {{ message }}
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+
+    </div>
+
+
+    <div class="lefttext">
+      <h1 class="h1">Frontotemporal Dementia (FTD)</h1>
+      <p  style="text-align:left" class="p">This is a research study of the web app-based cognitive assessment. Before deciding to participate,
+        you need to
+        understand why the research is being conducted and what your participation will involve. Please take time to
+        read. </p>
+    </div>
+
+
+
+    <div class="rightimage">
+      <img src="https://img.freepik.com/free-vector/alzheimer-concept-illustration_114360-7556.jpg">
+    </div>
+  </div>
+  <!-- About US -->
+  <section id="about">
+    <div class="about-left-col">
+      <img src="{{ url_for('static', filename = 'images/dataset/frontotemporaldementia.jpg') }}">
+    </div>
+    <div class="about-right-col">
+      <div class="about-text">
+        <h1 style="color:#00aeef">About Dementia</h1>
+        <span class="square"></span>
+        <p style="text-align:left ">Frontotemporal dementia is an uncommon type of dementia that causes problems
+          with
+          behaviour and language.Dementia is the name for problems with mental abilities caused by
+          gradual
+          changes and damage in the brain.
+
+          Frontotemporal dementia affects the front and sides of the brain (the frontal and
+          temporal
+          lobes)
+          Dementia mostly affects people over 65, but frontotemporal dementia tends to start at a
+          younger age. Most cases are diagnosed in people aged 45-65, although it can also affect
+          younger or older people.
+
+          Like other types of dementia, frontotemporal dementia tends to develop slowly and get
+          gradually worse over several years.
+        <div class="line">
+          <a href="https://en.wikipedia.org/wiki/Frontotemporal_dementia"
+          style="text-decoration: none;"><button type="button" class="btn btn-primary" style="background-color: #00aeef;">Read More</button>
+        </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer class="bg-light text-center text-lg-start" style="width:100%">
+    <!-- Copyright -->
+    <div  class="text-center p-3" style="background-color: #00aeef; color: white;">
+      <span id="copyright">
+        ©2023 Copyright:
+      </span>
+   
+        <a class="text-dak" href="http://www.iitkgp.ac.in" style="text-decoration: none; color: white;">IIT
+            Kharagpur</a>
+    </div>
+    <!-- Copyright -->
+</footer>
+<script>
+let copyright=document.getElementById('copyright')
+var year=new Date().getFullYear();
+copyright.innerHTML='@'+year+"  Copyright: " ;
+window.history.pushState(null, null, document.URL);
+window.onpopstate = function(event) {
+    window.history.pushState(null, null, document.URL);
+};
+window.history.pushState(null, null, document.URL);
+window.onpopstate = function(event) {
+    window.history.pushState(null, null, document.URL);
+};
+window.onload = function() {
+    window.history.pushState(null, null, document.URL);
+};
+</script>
+<script type="text/javascript">
+  window.history.forward();
+  function noBack() {
+      window.history.forward();
+  }
+</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+
+  <script type="text/javascript" src="{{ url_for('static', filename = 'layout/navbar.js') }}"></script>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+</html>

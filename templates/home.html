@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>FTD</title>
+    <style>
+
+.auto-grid {
+    --auto-grid-min-size: 20rem;
+    
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--auto-grid-min-size), 1fr));
+    grid-gap: 1rem;
+    margin-right:2rem;
+  }
+  
+  
+  /* Presentational styles */
+  
+  body {
+    background: #fff;
+    
+    line-height: 1.4;
+    font-family: sans-serif;
+ 
+  }
+  
+  .test{
+    padding:5rem 5rem 5rem 5rem;
+    
+    text-align: center;
+    font-size: 1.2rem;
+    list-style-type: none;
+ 
+    background:white;
+    background: linear-gradient(45deg, #4199fe, #74b4fe);
+  border-radius: 6px;
+  }
+.test{
+  color:white;
+    text-decoration: none;
+    transition: all 0.4s ease-in-out;
+    -webkit-box-shadow: 0px 9px 12px -6px rgba(0, 0, 0, 0.2), 0px 19px 29px 2px rgba(0, 0, 0, 0.14), 0px 7px 36px 6px rgba(0, 0, 0, 0.12);
+    box-shadow: 0px 9px 12px -6px rgba(0, 0, 0, 0.2), 0px 19px 29px 2px rgba(0, 0, 0, 0.14), 0px 7px 36px 6px rgba(0, 0, 0, 0.12);
+}
+.test:hover {
+    scale: 1.05;
+    transition: all 0.4s ease-in-out;
+    
+      }
+
+      
+@media(max-width:450px){
+  
+    .auto-grid{
+        --auto-grid-min-size: 100%;
+   
+    }
+    .test{
+        
+        padding:3rem;
+        margin:0;
+    }
+    
+
+}
+.wrap {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  box-sizing: border-box;
+  height: 100vh;
+  padding: 2rem;
+  background-color: #eee;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 1rem;
+  background-color: #fff;
+  width: 768px;
+  height: 100%;
+  border-radius: 0.25rem;
+  box-shadow: 0rem 1rem 2rem -0.25rem rgba(0, 0, 0, 0.25);
+}
+  .container__heading {
+    padding: 1rem 0;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+  }
+    .container h2 {
+      font-size: 1.75rem;
+      line-height: 1.75rem;
+      margin: 0;
+    }
+  
+  
+    .container__content {
+    flex-grow: 1;
+    overflow-y: scroll;
+  }
+  
+  .container__nav {
+    border-top: 1px solid #ccc;
+    text-align: right;
+    padding: 2rem 0 1rem;
+  }
+    .button1 {
+     
+      box-shadow: 0rem 0.5rem 1rem -0.125rem rgba(0, 0, 0, 0.25);
+      padding: 0.8rem 2rem;
+      border-radius: 0.5rem;
+      color: #fff;
+      text-decoration: none;
+ 
+      font-size: 0.9rem;
+      transition: transform 0.25s, box-shadow 0.25s;
+      
+    }
+    .button1:hover {
+        box-shadow: 0rem 0rem 1rem 0.025rem rgba(0, 0, 0, 0.25);
+        transform: translateY(0.5rem);
+      }
+    
+    
+   small {
+      color: #777;
+      margin-right: 1rem;
+    }
+  .ques{
+    color:#74b4fe;
+    font-weight: bold;
+  }
+  .ans{
+    line-height: 25px;
+  }
+  ul li:first-child {
+list-style: none;
+font-weight: bold;
+  }
+  .inac{
+    display:none
+  }
+  .buton{
+    display: flex;
+    justify-content: center;
+    align-items: center;;
+
+  }
+    </style>
+</head>
+<body>
+
+  <div style="text-align: center;">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">
+          {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+      {% endwith %}
+    <h1>{{result}}</h1>
+  </div>
+
+  
+
+
+
+    <ul id="main2" class=" auto-grid" >
+    
+        <a  class="test" href="{{ url_for('layout') }}?name=emoji"> <li>Emoji Game</li></a>
+       <a   class="test" href="{{ url_for('emojrecog') }}"> <li>Emotion Recognition Test</li></a>
+        <a  class="test"   href="{{url_for('layout') }}?name=ace1"> <li>ACE-III</li></a>
+      
+       
+       <a  class="test"  href="{{ url_for('layout') }}?name=ptt"> <li>Pulse Tracking Test</li></a>
+       <a class="test" href="{{ url_for('layout') }}?name=tmt"> <li>Trail Making test</li></a>
+       <a class="test"  href="{{ url_for('layout') }}?name=vs1" > <li>Visuo-Spatial </li></a>
+      </ul>
+      <div class="buton">
+   <a  href="{{ url_for('home')}}" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" id="button1" class="button1" style="background:#dc3545" >Home</a>
+   
+     
+  </div>
+      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              
+              <h5 class="modal-title" id="exampleModalLongTitle">Are you sure you want to exit ?</h5>
+              
+            </div>
+            
+            <div class="modal-footer" style="display:flex; justify-content: space-between;" >
+              <a href="{{ url_for('home') }}">
+              <button type="button" class="btn btn-primary">Yes</button>
+            </a>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        window.history.pushState(null, null, document.URL);
+window.onpopstate = function(event) {
+    window.history.pushState(null, null, document.URL);
+};
+window.history.pushState(null, null, document.URL);
+window.onpopstate = function(event) {
+    window.history.pushState(null, null, document.URL);
+};
+window.onload = function() {
+    window.history.pushState(null, null, document.URL);
+};
+      </script>
+      
+      <script type="text/javascript">
+        function confirm_alert(node) {
+          return confirm("Present session will end.Do you want to continue?");
+      }
+        window.history.forward();
+        function noBack() {
+            window.history.forward();
+        }
+      </script>
+      <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+      integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+      crossorigin="anonymous"
+    ></script>
+       </body>
+       </html>

@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='ACE/attention/attention124.css')}}">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <title>Attention Test</title>
+</head>
+<style>
+  html,
+  body {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+
+
+
+  }
+  .form-control::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    font-size: 8;
+    color: black;
+    /* Firefox */
+  }
+
+  .form-control:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    font-size: 8;
+    color: black;
+  }
+
+  .form-control::-ms-input-placeholder {
+    /* Microsoft Edge */
+    font-size: 8;
+    color: black;
+  }
+  .start_btn,
+  .info_box,
+  .quiz_box,
+  .result_box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+      0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+
+  .info_box.activeInfo,
+  .quiz_box.activeQuiz,
+  .result_box.activeResult {
+    opacity: 1;
+    z-index: 5;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .start_btn button {
+    font-size: 25px;
+    font-weight: 500;
+    color: #007bff;
+    padding: 15px 30px;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    background: #fff;
+    cursor: pointer;
+  }
+
+  .info_box {
+    width: 540px;
+    background: #fff;
+    border-radius: 5px;
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+  }
+
+  .info_box .info-title {
+    height: 60px;
+    width: 100%;
+    border-bottom: 1px solid lightgrey;
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+    border-radius: 5px 5px 0 0;
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .info_box .info-list {
+    padding: 15px 30px;
+  }
+
+  .info_box .info-list .info {
+    margin: 5px 0;
+    font-size: 17px;
+  }
+
+  .info_box .info-list .info span {
+    font-weight: 600;
+    color: #007bff;
+  }
+
+  .info_box .buttons {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 30px;
+    border-top: 1px solid lightgrey;
+  }
+
+  .info_box .buttons button {
+    margin: 0 5px;
+    height: 40px;
+    width: 100px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #007bff;
+    transition: all 0.3s ease;
+  }
+
+  .main {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+  }
+
+  .container {
+
+    padding: 15px 15px;
+    box-shadow: 0px 0px 10px #888;
+    width: 50rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    align-items: center;
+
+    border-radius: 10px;
+    background-color: #f9f9f9;
+
+
+  }
+
+  form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  i {
+    height: 24px;
+  }
+
+  .def,
+  .day {
+
+    width: 30rem;
+
+
+  }
+
+  .custom-select {
+
+    display: inline-block;
+    font-size: 14px;
+    color: #888;
+    margin-top: 25px;
+
+  }
+
+  .custom-select select {
+    display: block;
+    width: 30rem;
+    min-height: 35px;
+
+    border-radius: 3px;
+
+    outline: none;
+    padding: 0 20px 0 10px;
+    margin-top: 5px;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+  }
+
+  @media only screen and (max-width: 800px) {
+    .main {
+      position: relative;
+      top: 1%;
+      left: 0;
+      transform: none;
+    }
+
+    h5 {
+      font-size: 14px;
+    }
+
+  }
+
+  .def {
+    margin: 0;
+    padding: 0;
+
+    margin-top: 30px;
+  }
+
+  .custom-select .selector-options {
+    list-style: none;
+    padding: 5px 0;
+    margin: 0;
+    background: #11436b;
+    color: #fff;
+    border-radius: 4px;
+    z-index: 1;
+
+    position: absolute;
+    left: 2%;
+    top: 35%;
+    margin-top: 15px;
+  }
+
+  .custom-select .selector-options li {
+    height: 35px;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    cursor: pointer;
+
+    transition: background 0.3s ease;
+  }
+
+  .custom-select .selector-options li:hover {
+    background: #03A9F4;
+  }
+
+  .h2 {
+    color: white;
+    background-color: #0d6efd;
+    width: 100%;
+    margin: 0;
+    height: 70px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+
+
+    text-align: center;
+  }
+
+  @media only screen and (max-width: 800px) {
+    .container {
+      position: relative;
+      top: 0;
+      left: 0;
+      transform: none;
+    }
+
+    h5 {
+      font-size: 14px;
+    }
+  }
+
+  @media(max-width:600px) {
+    .container {
+      width: 100%;
+    }
+
+    .custom-select select {
+      max-width: 20rem;
+    }
+
+    .def,
+    .day {
+
+      max-width: 20rem;
+
+    }
+
+  }
+
+  .prompt {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .instruction {
+    background-color: aliceblue;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  #instruction-title {
+    font-size: 24px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  #instruction-content {
+    text-align: left;
+    font-size: 18px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+
+  /* .btn {
+    padding: 10px 20px;
+    background-color: #2a47ec;
+    color: aliceblue;
+    border-radius: 5px;
+    font-size: 18px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    cursor: pointer;
+  } */
+  .next-btn {
+    display: flex;
+    text-align: center;
+    justify-content: space-between;
+    padding: 0 !important;
+  }
+
+  @media (max-width :300px) {
+    .next-btn {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+    }
+
+    button {
+      text-align: center;
+      margin-bottom: 10px;
+      margin-top: 10px;
+    }
+
+  }
+
+  @media(max-width:430px) {
+    .container {
+      width: 100%;
+    }
+
+    .custom-select select {
+      max-width: 15rem;
+    }
+
+    .def,
+    .day {
+
+      max-width: 15rem;
+
+    }
+
+  }
+
+  .input-t[type="text"] {
+    width: 30rem;
+    padding: 6px 6px;
+
+    box-sizing: border-box;
+    border: 1px solid rgb(110, 110, 110);
+
+    font-size: 16px;
+
+    transition: all 0.3s ease-in-out;
+
+  }
+
+
+  .input-t[type="text"]:focus {
+
+
+    outline: none;
+  }
+
+  @media(max-width:230px) {}
+</style>
+
+<body>
+
+
+
+  {% block content %}
+
+  <!-- For address part -->
+
+
+  <!-- <div id="main" class=" main group-1">
+    <div class="container container-fluid border bg-white">
+      <div class="h2 mb-4 ">
+        <h1>Address Part</h1>
+      </div>
+      <form class="text-center">
+        <div class="form-group mb-4 ">
+          <input type="text" class="form-control" id="inpfloor" placeholder="Enter Floor Number">
+        </div>
+        <div class="form-group mb-4"> 
+          <input type="text" class="form-control" id="inpstreet" placeholder="Enter Street Number">
+        </div>
+        <div class="form-group mb-4">
+          <input type="text" class="form-control" id="inpcity" aria-describedby="emailHelp" placeholder="Enter City">
+        </div>
+        <div class="form-group mb-4">
+          <input type="text" class="form-control" id="inpstate" placeholder="Enter State">
+        </div>
+        <div class="mt-4">
+           <a href="location.html" target="_blank"> 
+          <a class="px-5 btn btn-lg btn-primary" onclick="displayfun()">Next</a>
+          </span>
+        </div>
+      </form>
+    </div>
+ </div>   -->
+  <div id="main" class="main group-2">
+    <div class="container container-fluid border bg-white">
+
+      <div class="h2" style="display: flex; align-items: center;">
+        <h4 class="flex-grow-1">Answer the following questions</h4>
+      </div>
+
+      <form class="text-center">
+        <div class="def texform-group ">
+          <div class="datepicker date input-group">
+            <input type="text" placeholder="Choose Date" class="form-control" id="fecha1">
+            <div class="input-group-append">
+              <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+            </div>
+          </div>
+        </div>
+        <label class="day custom-select">
+          <select name="sample" id="day">
+            {% for x in days %}
+            <option value={{x}}>{{x}}</option>
+            {% endfor %}
+          </select>
+        </label>
+        <label class="day custom-select">
+          <select name="sample" id="season">
+            {% for season in seasons %}
+            <option value={{season}}>{{season}}</option>
+            {% endfor %}
+          </select>
+        </label>
+        <!-- <label class="day custom-select">
+          <select name="sample" id="city">
+            {% for city in states %}
+            <option value={{city}}>{{city}}</option>
+            {% endfor %}
+          </select>
+        </label> -->
+        <label class="day custom-select">
+          <input id="city" class="form-control" style="border:1px solid grey" type="text"
+            placeholder="Enter City/District name" />
+        </label>
+        <label class="day custom-select">
+          <select name="sample" id="state">
+            {% for state in states %}
+            <option value={{state}}>{{state}}</option>
+            {% endfor %}
+          </select>
+        </label>
+        <label class="day custom-select">
+          <select name="sample" id="country">
+            {% for country in list %}
+            <option value={{country}}>{{country}}</option>
+            {% endfor %}
+          </select>
+        </label>
+      
+        <!--  <label class="day custom-select">
+          <div class="words bg-white ">
+            <input class="input-t" type="text" id="first" class="form-control" name="first-sentence"
+              placeholder="Type your full address" maxlength="130">
+          </div>
+        </label> -->
+
+        <div class="mt-5 next-btn words bg-white p-4 border-bottom">
+          <div>
+            <button type="button" id="next-btn" class="px-4 btn btn-danger float-left" data-bs-toggle="modal"
+              data-bs-target="#exampleModalCenter">Exit</button>
+          </div>
+          <div>
+            <button type="button" id="next-btn" onclick="Score()"
+              class="px-4 btn  btn-primary float-right">Next</button>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+
+          <h5 class="modal-title" id="exampleModalLongTitle">Are you sure you want to exit ?</h5>
+
+        </div>
+
+        <div class="modal-footer" style="display:flex; justify-content: space-between;">
+          <a href="{{ url_for('ace_results') }}">
+            <button type="button" class="btn btn-primary">Yes</button>
+          </a>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock content %}
+  <script> nextUrl = "{{url}}"</script>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+
+  <!-- Datepicker -->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename = 'ACE/attention/attention1.js') }}"></script>
+  <script>
+    // let inpcity;
+    // let inpfloor;
+    // let inpstreet;
+    // let inpstate;
+    // function displayfun() {
+    //   inpfloor=document.getElementById("inpfloor").value;
+    //   inpstreet=document.getElementById("inpstreet").value;
+    //   inpcity=document.getElementById("inpcity").value;
+    //   inpstate=document.getElementById("inpstate").value;
+    //   document.getElementsByClassName("group-2")[0].style.display = "block";
+    //   document.getElementsByClassName("group-1")[0].style.display = "none";
+    // }
+
+
+    // Scoring----->
+    // For first question  give 3 marks;
+    // For second,third question give 1 mark
+    // For fourth and fifth queston give 2 marks
+    // For last question give 1 mark
+    // function Score() {
+    //   let sent = false;
+    //   let ans = 0;
+    //   const day = new Date().getDay();
+    //   const date = new Date().getDate();
+    //   let month = new Date().getMonth();
+    //   let mon = month;
+    //   month = month + 1;
+    //   if (month < 10) {
+    //     month = "0" + month;
+    //   }
+    //   let year = new Date().getFullYear();
+    //   let ddmmyyyy = month + "/" + date + "/" + year;
+    //   let selectdeddate = document.getElementById("fecha1").value;
+    //   let selectedday = document.getElementById("day").value;
+    //   let selectedcountry = document.getElementById("country").value;
+    //   // let selectedstate = document.getElementById("state").value;
+    //   let selectedseason = document.getElementById("season").value;
+    //   if (selectdeddate === ddmmyyyy) {
+    //     ans += 3;
+    //   }
+    //   if (selectedcountry === "India" || selectedcountry === "india") {
+    //     ans += 2;
+    //   }
+    //   listday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    //   correctday = listday[day];
+    //   if (selectedday === correctday) {
+    //     ans += 3;
+    //   }
+
+    //   seasonlist = ['Spring', 'Summer', 'Monsoon', 'Autumn', 'Winter']
+    //   season = "";
+    //   if (mon == 2 || mon == 3)
+    //     season = "Spring";
+    //   else if (mon == 4 || mon == 5)
+    //     season = "Summer";
+    //   else if (mon == 6 || mon == 7)
+    //     season = "Monsoon"
+    //   else if (mon == 8 || mon == 9)
+    //     season = "Autumn";
+    //   else
+    //     season = "Winter";
+    //   if (selectedseason === season) {
+    //     ans += 2;
+    //   }
+    //   // var x = inpstate;
+    //   // if (selectedstate.includes(x) || x.includes(selectedstate)) {
+    //   //   ans += 1;
+    //   // }
+    //   $.ajax({
+    //     type: "POST",
+    //     url: "/send_score",
+    //     data: {
+    //       score: ans,
+    //       column: "attention1"
+    //     },
+    //     success: function (response) {
+    //       console.log(response);
+    //       sent = true;
+    //       redirect(sent);
+    //     }
+      function Score() {
+        let ansMap ={};
+        let correctCity='{{city}}';
+        let correctState='{{state}}';
+        let sent=false;
+        let ans = 0;
+        const day = new Date().getDay();
+        let date = new Date().getDate();
+        let month = new Date().getMonth();
+        let mon = month;
+        month = month + 1;
+        if (month < 10) {
+          month = "0" + month;
+        }
+        if(date <10){
+          date="0"+date;
+        }
+        let year = new Date().getFullYear();
+        let ddmmyyyy = month + "/" + date + "/" + year;
+       
+        let selectdeddate = document.getElementById("fecha1").value;
+        let selectedday = document.getElementById("day").value;
+        let selectedcountry = document.getElementById("country").value;
+    
+        let selectedseason = document.getElementById("season").value;
+        ansMap[selectdeddate]=ddmmyyyy;
+        ansMap[selectedcountry]="india";
+       
+
+
+        if (selectdeddate === ddmmyyyy) {
+          ans += 3;
+        }
+        if (selectedcountry === "India" || selectedcountry === "india") {
+          ans += 1;
+        }
+        listday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        correctday = listday[day];
+        console.log(selectedday);
+        console.log(correctday);
+        if (selectedday === correctday) {
+          
+          ans += 1;
+          
+        }
+        seasonlist = ['Spring', 'Summer', 'Monsoon', 'Autumn', 'Winter']
+        season = "";
+        if (mon == 2 || mon == 3)
+          season = "Spring";
+        else if (mon == 4 || mon == 5)
+          season = "Summer";
+        else if (mon == 6 || mon == 7)
+          season = "Monsoon"
+        else if (mon == 8 || mon == 9)
+          season = "Autumn";
+        else
+          season = "Winter";
+          
+        if (selectedseason === season) {
+          ans += 1;
+          
+        }
+        ansMap[selectedseason]=season;
+        let selectedcity=document.getElementById("city").value;
+        selectedcity=selectedcity.toLowerCase();
+        let selectedstate=document.getElementById("state").value;
+        console.log(selectedstate)
+        selectedstate=selectedstate.toLowerCase();
+
+        correctCity=correctCity.toLowerCase();
+        correctState=correctState.toLowerCase();
+        if(selectedcity==correctCity){
+          ans+=2;
+        }
+        console.log(selectedstate,correctState)
+        if(selectedstate==correctState || correctState.includes(selectedstate) || selectedstate.includes(correctState)){
+          console.log(selectedstate,correctState)
+          ans+=2;
+        }
+        ansMap[selectedcity]=correctCity;
+        ansMap[selectedstate]=correctState;
+        console.log(ans);
+        $.ajax({
+        type: "POST",
+        url: "/send_score",
+        data: { 
+        score: ans,
+        column: "attention1",
+        source:"attention1_response",
+        user_response:JSON.stringify(ansMap)
+     },
+     success: function(response) {
+        console.log(response);
+         sent=true;
+        redirect(sent);     
+     } 
+     
+  });
+}
+function redirect(sent){
+  if(sent===true){
+    window.location.href=nextUrl;
+  }
+}
+      // if startQuiz button clicked
+      $(function () {
+        $('.datepicker').datepicker({
+          language: "es",
+          autoclose: true
+
+      });
+    });
+    $('.dropdown-menu li').on('click', function () {
+      var getValue = $(this).text();
+      $('.dropdown-select').text(getValue);
+    });
+  </script>
+
+
+</body>
+
+
+</html>
